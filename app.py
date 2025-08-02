@@ -2,16 +2,7 @@ from flask import Flask, request
 
 app = Flask(__name__)
 
-tasks = {
-  1: {
-    "id": 1,
-    "name": "Read book"
-  },
-  2: {
-    "id": 2,
-    "name": "Play FFVII"
-  }
-}
+tasks = {}
 
 @app.get("/tasks")
 def get_all_tasks():
@@ -28,5 +19,7 @@ def exact_task(task_id):
 @app.post("/tasks")
 def add_new_task():
   task_data = request.get_json()
-  tasks.append(task_data)
-  return {"message": "Task added"}, 201
+  task_id = len(tasks) + 1
+  new_task = {**task_data, "id": task_id}
+  tasks[task_id] = new_task
+  return {"message": "Task added", "task": new_task}, 201
