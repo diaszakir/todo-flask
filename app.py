@@ -47,3 +47,11 @@ def update_task_status(task_id):
     tasks[task_id].update(task_data)
     return tasks[task_id]
   return {"message": "Task not found"}, 404
+
+
+@app.delete("/tasks/<int:task_id>")
+def delete_task(task_id):
+  if task_id in tasks:
+    del tasks[task_id]
+    return {"message": "Task deleted"}, 200
+  return {"message": "Task not found"}, 404
