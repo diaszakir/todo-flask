@@ -29,13 +29,17 @@ def add_new_task():
 
 @app.put("/tasks/<int:task_id>")
 def update_task(task_id):
+  task_data = request.get_json()
+  if not task_data or "status" not in task_data or "name" not in task_data:
+    return {"message": "Invalid request"}, 400
+  
   if task_id in tasks:
-    task_data = request.get_json()
-    if not task_data or "status" not in task_data or "name" not in task_data:
-      return {"message": "Invalid request"}, 400
     tasks[task_id].update(task_data)
     return tasks[task_id]
-  return {"message": "Task not found"}, 404
+  
+  new_task = {**task_data, "id": task_id}
+  tasks[task_id] = new_task
+  return tasks[task_id]
 
 
 @app.patch("/tasks/<int:task_id>")
