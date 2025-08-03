@@ -2,6 +2,11 @@
 
 First version of TODO list application REST API created on Flask.
 
+## Updates:
+
+- Added flask_smorest
+- Added Swagger-UI for API documentation
+
 ## Endpoints:
 
 - GET `/tasks` - Shows user all tasks
@@ -31,6 +36,10 @@ For the first version you can launch application type in terminal
 flask run
 ```
 
+## Accessing Swagger-UI
+
+Type on browser `localhost:5000/docs` to see API documentation
+
 ## How to use
 
 Use Postman/Insomnia/Bruno or other testing applications
@@ -39,6 +48,5 @@ Use Postman/Insomnia/Bruno or other testing applications
 
 - Database
 - Authorization
-- Swagger-UI for documentation
 - Schemas
 - Frontend
