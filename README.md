@@ -1,6 +1,6 @@
 # TODO list
 
-First version of TODO list REST API created on Flask.
+First version of TODO list application REST API created on Flask.
 
 ## Endpoints:
 
@@ -16,3 +16,4 @@ First version of TODO list REST API created on Flask.
 - Database
 - Authorization
 - Swagger-UI for documentation
+- Frontend
