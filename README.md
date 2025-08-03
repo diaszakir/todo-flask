@@ -28,4 +28,5 @@ Use Postman/Insomnia/Bruno or other testing applications
 - Database
 - Authorization
 - Swagger-UI for documentation
+- Schemas
 - Frontend
