@@ -13,7 +13,7 @@ First version of TODO list application REST API created on Flask.
 
 ## How to run
 
-For the first version you can launch application typed in terminal
+For the first version you can launch application type in terminal
 
 ```
 flask run
