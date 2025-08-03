@@ -14,6 +14,25 @@ class TaskManagement(MethodView):
     except KeyError:
       abort(404, message="Task not found")
 
+  def put(self, task_id):
+    task_data = request.get_json()
+    if not task_data or "name" not in task_data or "status" not in task_data:
+      abort(400, message="Invalid request. Ensure you put 'name' and 'status'")
+
+    new_task = {**task_data, "id": task_id}
+    tasks[task_id] = new_task
+    return tasks[task_id]
+
+  def patch(self, task_id):
+    try:
+      task_data = request.get_json()
+      if not task_data or "status" not in task_data:
+        abort(400, message="Invalid request. Please input task status")
+      # For taking only status, I will add schemas
+      tasks[task_id].update(task_data)
+      return tasks[task_id]
+    except KeyError:
+      abort(404, message="Task not found")
 
   def delete(self, task_id):
     try:
