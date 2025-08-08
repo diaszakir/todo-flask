@@ -43,10 +43,13 @@ class TaskManagement(MethodView):
 
 @blp.route("/tasks")
 class TaskCreate(MethodView):
+  @blp.response(200, TaskSchema(many=True))
   def get(self):
     return list(tasks.values())
 
 
+  @blp.arguments(TaskSchema)
+  @blp.response(201, TaskSchema)
   def post(self):
     task_data = request.get_json()
     for task in tasks.values():
