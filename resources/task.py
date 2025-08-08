@@ -2,7 +2,7 @@ from flask import request
 from flask.views import MethodView
 from flask_smorest import Blueprint, abort
 
-from schemas import TaskSchema, TaskUpdateSchema
+from schemas import TaskSchema, TaskUpdateSchema, StatusUpdateSchema
 from db import tasks
 
 blp = Blueprint("Tasks", __name__, description="Operation on tasks")
@@ -16,22 +16,18 @@ class TaskManagement(MethodView):
     except KeyError:
       abort(404, message="Task not found")
 
-  
-  def put(self, task_id):
-    task_data = request.get_json()
-    if not task_data or "name" not in task_data or "status" not in task_data:
-      abort(400, message="Invalid request. Ensure you put 'name' and 'status'")
-
+  @blp.arguments(TaskUpdateSchema)
+  @blp.response(200, TaskSchema)
+  def put(self, task_data, task_id):
     new_task = {**task_data, "id": task_id}
     tasks[task_id] = new_task
     return tasks[task_id]
 
-  def patch(self, task_id):
+
+  @blp.arguments(StatusUpdateSchema)
+  @blp.response(200, TaskSchema)
+  def patch(self, task_data, task_id):
     try:
-      task_data = request.get_json()
-      if not task_data or "status" not in task_data:
-        abort(400, message="Invalid request. Please input task status")
-      # For taking only status, I will add schemas
       tasks[task_id].update(task_data)
       return tasks[task_id]
     except KeyError:
