@@ -9,12 +9,14 @@ blp = Blueprint("Tasks", __name__, description="Operation on tasks")
 
 @blp.route("/tasks/<int:task_id>")
 class TaskManagement(MethodView):
+  @blp.response(200, TaskSchema)
   def get(self, task_id):
     try:
       return tasks[task_id]
     except KeyError:
       abort(404, message="Task not found")
 
+  
   def put(self, task_id):
     task_data = request.get_json()
     if not task_data or "name" not in task_data or "status" not in task_data:
