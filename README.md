@@ -4,8 +4,8 @@ First version of TODO list application REST API created on Flask.
 
 ## Updates:
 
-- Added schemas for data validation
-- Extra logic fix
+- Added `SQLAlchemy` ORM
+- Added migrations using `flask_migrations` and `alembic`
 
 ## Endpoints:
 
@@ -54,6 +54,8 @@ For the first version you can launch application type in terminal
 flask run
 ```
 
+If you want use other database (MySQL, PostgreSQL and etc.) you should add connection with .env file
+
 ## Accessing Swagger-UI
 
 Type on browser `localhost:5000/docs` to see API documentation
@@ -64,6 +66,5 @@ Use Postman/Insomnia/Bruno or other testing applications
 
 ## Planned to add:
 
-- Database
 - Authorization
 - Frontend
