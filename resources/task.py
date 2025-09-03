@@ -1,9 +1,11 @@
 from flask import request
 from flask.views import MethodView
 from flask_smorest import Blueprint, abort
+from sqlalchemy.exc import SQLAlchemyError
 
 from schemas import TaskSchema, TaskUpdateSchema, StatusUpdateSchema
 from db import db
+from models import TaskModel
 
 blp = Blueprint("Tasks", __name__, description="Operation on tasks")
 
@@ -51,10 +53,10 @@ class TaskCreate(MethodView):
   @blp.arguments(TaskSchema)
   @blp.response(201, TaskSchema)
   def post(self, task_data):
-    for task in tasks.values():
-      if task_data["name"] == task["name"]:
-        abort(400, message="Task already exists")
-    task_id = len(tasks) + 1
-    task = {**task_data, "id": task_id}
-    tasks[task_id] = task
+    task = TaskModel(**task_data)
+    try:
+        db.session.add(task)
+        db.session.commit()
+    except SQLAlchemyError:
+        abort(500, message="An error while inserting a task")
     return task

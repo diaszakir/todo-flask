@@ -6,7 +6,7 @@ class PlainTaskSchema(Schema):
 
 
 class TaskSchema(PlainTaskSchema):
-  status = fields.Str(required=True)
+  status = fields.Str(load_default="Not started")
 
 
 class TaskUpdateSchema(Schema):
