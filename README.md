@@ -4,8 +4,8 @@ First version of TODO list application REST API created on Flask.
 
 ## Updates:
 
-- Added flask_smorest
-- Added Swagger-UI for API documentation
+- Added schemas for data validation
+- Extra logic fix
 
 ## Endpoints:
 

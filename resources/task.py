@@ -50,8 +50,7 @@ class TaskCreate(MethodView):
 
   @blp.arguments(TaskSchema)
   @blp.response(201, TaskSchema)
-  def post(self):
-    task_data = request.get_json()
+  def post(self, task_data):
     for task in tasks.values():
       if task_data["name"] == task["name"]:
         abort(400, message="Task already exists")
