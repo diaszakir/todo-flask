@@ -46,11 +46,12 @@ class TaskManagement(MethodView):
     return task
 
   def delete(self, task_id):
-    try:
-      del tasks[task_id]
-      return {"message": "Task deleted"}
-    except KeyError:
-      abort(404, message="Task not found")
+    task = TaskModel.query.get_or_404(task_id)
+
+    db.session.delete(task)
+    db.session.commit()
+
+    return {"message": "Task deleted"}
 
 
 @blp.route("/tasks")
