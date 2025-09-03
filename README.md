@@ -18,16 +18,34 @@ First version of TODO list application REST API created on Flask.
 
 ## How to run
 
-First you need to create python virtual environment
+First, you need to create python virtual environment
 
 ```
 python -m venv .venv
 ```
 
-Second you need to install required libraries
+Second, you need to install required libraries
 
 ```
 pip install -r requirements.txt
+```
+
+Third, you need to initialize database
+
+```
+flask db init
+```
+
+Fourth, make migration
+
+```
+flask db migrate
+```
+
+After
+
+```
+flask db upgrade
 ```
 
 For the first version you can launch application type in terminal
