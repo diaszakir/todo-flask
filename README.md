@@ -48,5 +48,4 @@ Use Postman/Insomnia/Bruno or other testing applications
 
 - Database
 - Authorization
-- Schemas
 - Frontend
