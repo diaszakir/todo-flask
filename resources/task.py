@@ -13,10 +13,8 @@ blp = Blueprint("Tasks", __name__, description="Operation on tasks")
 class TaskManagement(MethodView):
   @blp.response(200, TaskSchema)
   def get(self, task_id):
-    try:
-      return tasks[task_id]
-    except KeyError:
-      abort(404, message="Task not found")
+    task = TaskModel.query.get_or_404(task_id)
+    return task
 
   @blp.arguments(TaskUpdateSchema)
   @blp.response(200, TaskSchema)
@@ -47,8 +45,7 @@ class TaskManagement(MethodView):
 class TaskCreate(MethodView):
   @blp.response(200, TaskSchema(many=True))
   def get(self):
-    return list(tasks.values())
-
+    return TaskModel.query.all()
 
   @blp.arguments(TaskSchema)
   @blp.response(201, TaskSchema)
