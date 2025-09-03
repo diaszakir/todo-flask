@@ -19,19 +19,31 @@ class TaskManagement(MethodView):
   @blp.arguments(TaskUpdateSchema)
   @blp.response(200, TaskSchema)
   def put(self, task_data, task_id):
-    new_task = {**task_data, "id": task_id}
-    tasks[task_id] = new_task
-    return tasks[task_id]
+    task = TaskModel.query.get(task_id)
+    if task:
+        task.name = task_data["name"]
+        task.status = task_data["status"]
+    else:
+        task = TaskModel(id=task_id, **task_data)
 
+    db.session.add(task)
+    db.session.commit()
+
+    return task
 
   @blp.arguments(StatusUpdateSchema)
   @blp.response(200, TaskSchema)
   def patch(self, task_data, task_id):
-    try:
-      tasks[task_id].update(task_data)
-      return tasks[task_id]
-    except KeyError:
-      abort(404, message="Task not found")
+    task = TaskModel.query.get(task_id)
+    if task:
+        task.status = task_data["status"]
+    else:
+        task = TaskModel(id=task_id, **task_data)
+
+    db.session.add(task)
+    db.session.commit()
+
+    return task
 
   def delete(self, task_id):
     try:
