@@ -3,7 +3,7 @@ from flask.views import MethodView
 from flask_smorest import Blueprint, abort
 
 from schemas import TaskSchema, TaskUpdateSchema, StatusUpdateSchema
-from db import tasks
+from db import db
 
 blp = Blueprint("Tasks", __name__, description="Operation on tasks")
 
