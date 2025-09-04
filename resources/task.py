@@ -47,7 +47,7 @@ class TaskManagement(MethodView):
 
     return task
 
-  @jwt_required()
+  @jwt_required(fresh=True)
   def delete(self, task_id):
     jwt = get_jwt()
     if not jwt.get('is_admin'):
@@ -67,7 +67,7 @@ class TaskCreate(MethodView):
   def get(self):
     return TaskModel.query.all()
 
-  @jwt_required()
+  @jwt_required(fresh=True)
   @blp.arguments(TaskSchema)
   @blp.response(201, TaskSchema)
   def post(self, task_data):
