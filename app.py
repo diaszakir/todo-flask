@@ -32,11 +32,8 @@ def create_app(db_url=None):
 
   @jwt.token_in_blocklist_loader
   def check_if_token_in_blocklist(jwt_header, jwt_payload):
-      print(">>> token_in_blocklist_loader called!")
-      print("jwt_payload:", jwt_payload)
       jti = jwt_payload["jti"]
       token = BlocklistModel.query.get(jti)
-      print("Token from DB:", token)
       return token is not None
 
   @jwt.additional_claims_loader
