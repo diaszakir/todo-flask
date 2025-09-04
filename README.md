@@ -15,6 +15,7 @@ First version of TODO list application REST API created on Flask.
 - PUT `/tasks/task_id` - Updates task name and status
 - PATCH `/tasks/task_id` - Updates only task status
 - DELETE `/tasks/task_id` - Deletes task
+- POST `/register` - Register new user
 
 ## How to run
 

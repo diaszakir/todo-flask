@@ -1,6 +1,7 @@
 from flask import request
 from flask.views import MethodView
 from flask_smorest import Blueprint, abort
+from flask_jwt_extended import jwt_required
 from sqlalchemy.exc import SQLAlchemyError
 
 from schemas import TaskSchema, TaskUpdateSchema, StatusUpdateSchema
@@ -11,6 +12,7 @@ blp = Blueprint("Tasks", __name__, description="Operation on tasks")
 
 @blp.route("/tasks/<int:task_id>")
 class TaskManagement(MethodView):
+  @jwt_required()
   @blp.response(200, TaskSchema)
   def get(self, task_id):
     task = TaskModel.query.get_or_404(task_id)
@@ -45,6 +47,7 @@ class TaskManagement(MethodView):
 
     return task
 
+  @jwt_required()
   def delete(self, task_id):
     task = TaskModel.query.get_or_404(task_id)
 
@@ -56,10 +59,12 @@ class TaskManagement(MethodView):
 
 @blp.route("/tasks")
 class TaskCreate(MethodView):
+  @jwt_required()
   @blp.response(200, TaskSchema(many=True))
   def get(self):
     return TaskModel.query.all()
 
+  @jwt_required()
   @blp.arguments(TaskSchema)
   @blp.response(201, TaskSchema)
   def post(self, task_data):
