@@ -48,6 +48,12 @@ After
 flask db upgrade
 ```
 
+Next create JWT Secret Key in jwt_generate.py and paste it in your .env
+
+```
+python jwt_generate.py
+```
+
 For the first version you can launch application type in terminal
 
 ```
