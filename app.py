@@ -7,6 +7,7 @@ from resources.user import blp as UserBlueprint
 from flask_migrate import Migrate
 from flask_jwt_extended import JWTManager
 from db import db
+from models import UserModel
 
 
 def create_app(db_url=None):
@@ -27,6 +28,13 @@ def create_app(db_url=None):
   db.init_app(app)
   migrate = Migrate(app, db)
   api = Api(app)
+
+  @jwt.additional_claims_loader
+  def add_claims_to_jwt(identity):
+      user = UserModel.query.get_or_404(identity)
+      if user.id == 1:
+          return {'is_admin': True}
+      return {'is_admin': False}
 
   @jwt.expired_token_loader
   def expired_token_callback(jwt_header, jwt_payload):

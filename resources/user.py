@@ -31,7 +31,7 @@ class UserLogin(MethodView):
         user = UserModel.query.filter(UserModel.username == user_data["username"]).first()
 
         if user and pbkdf2_sha256.verify(user_data["password"], user.password):
-            access_token = create_access_token(identity=str(user.id))
+            access_token = create_access_token(identity=str(user.id)) # creating jwt token
             return {"access_token": access_token}, 201
 
         abort(401, message="Invalid credentials")
