@@ -20,8 +20,9 @@ def create_app(db_url=None):
   app.config["OPENAPI_SWAGGER_UI_URL"] = "https://cdn.jsdelivr.net/npm/swagger-ui-dist/"
   app.config["SQLALCHEMY_DATABASE_URI"] = db_url or os.getenv("DATABASE_URL", "sqlite:///data.db")
   app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
-  app.config["JWT_SECRET_KEY"] = os.getenv()
+  app.config["JWT_SECRET_KEY"] = os.getenv("JWT_SECRET_KEY")
 
+  jwt = JWTManager(app)
   db.init_app(app)
   migrate = Migrate(app, db)
   api = Api(app)
