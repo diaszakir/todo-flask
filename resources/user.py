@@ -1,3 +1,5 @@
+from datetime import timedelta
+
 from flask.views import MethodView
 from flask_smorest import Blueprint, abort
 from passlib.hash import pbkdf2_sha256
@@ -31,8 +33,9 @@ class UserLogin(MethodView):
         user = UserModel.query.filter(UserModel.username == user_data["username"]).first()
 
         if user and pbkdf2_sha256.verify(user_data["password"], user.password): # checking credentials
-            access_token = create_access_token(identity=str(user.id), fresh=True) # creating jwt token
-            refresh_token = create_refresh_token(str(user.id)) # create refresh token
+            # Method 1
+            access_token = create_access_token(identity=str(user.id), fresh=True, expires_delta=timedelta(minutes=30)) # creating jwt token
+            refresh_token = create_refresh_token(str(user.id), expires_delta=timedelta(days=1)) # create refresh token
             return {"access_token": access_token, "refresh_token": refresh_token}, 201
 
         abort(401, message="Invalid credentials")

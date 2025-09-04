@@ -4,8 +4,7 @@ First version of TODO list application REST API created on Flask.
 
 ## Updates:
 
-- Added `SQLAlchemy` ORM
-- Added migrations using `flask_migrations` and `alembic`
+- **Added auth using JWT**
 
 ## Endpoints:
 
@@ -16,6 +15,9 @@ First version of TODO list application REST API created on Flask.
 - PATCH `/tasks/task_id` - Updates only task status
 - DELETE `/tasks/task_id` - Deletes task
 - POST `/register` - Register new user
+- POST `/login` - Login using user credentials
+- POST `/logout` - Logout from the account
+- POST `/refresh` - Refresh JWT token
 
 ## How to run
 
@@ -61,7 +63,12 @@ For the first version you can launch application type in terminal
 flask run
 ```
 
-If you want use other database (MySQL, PostgreSQL and etc.) you should add connection with .env file
+If you want use other database (MySQL, PostgreSQL and etc.) you should add connection url in the `.env` file
+
+## Checking auth
+
+In `Postman/Insomnia/Bruno` you need in the request choose `Headers`
+Type for the key `Authorization` and for the value `Bearer <JWT without arrows>`
 
 ## Accessing Swagger-UI
 
@@ -73,6 +80,4 @@ Use Postman/Insomnia/Bruno or other testing applications
 
 ## Planned to add:
 
-- Add blocklist to database
-- Authorization
 - Frontend
