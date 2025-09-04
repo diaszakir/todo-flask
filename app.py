@@ -3,6 +3,7 @@ import os
 from flask import Flask
 from flask_smorest import Api
 from resources.task import blp as TaskBlueprint
+from resources.user import blp as UserBlueprint
 from flask_migrate import Migrate
 from flask_jwt_extended import JWTManager
 from db import db
@@ -32,5 +33,6 @@ def create_app(db_url=None):
   #     db.create_all()
 
   api.register_blueprint(TaskBlueprint)
+  api.register_blueprint(UserBlueprint)
 
   return app
