@@ -8,6 +8,7 @@ from flask_migrate import Migrate
 from flask_jwt_extended import JWTManager
 from db import db
 from models import UserModel
+from models import BlocklistModel
 
 
 def create_app(db_url=None):
@@ -28,6 +29,15 @@ def create_app(db_url=None):
   db.init_app(app)
   migrate = Migrate(app, db)
   api = Api(app)
+
+  @jwt.token_in_blocklist_loader
+  def check_if_token_in_blocklist(jwt_header, jwt_payload):
+      print(">>> token_in_blocklist_loader called!")
+      print("jwt_payload:", jwt_payload)
+      jti = jwt_payload["jti"]
+      token = BlocklistModel.query.get(jti)
+      print("Token from DB:", token)
+      return token is not None
 
   @jwt.additional_claims_loader
   def add_claims_to_jwt(identity):

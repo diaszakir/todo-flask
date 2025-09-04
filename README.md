@@ -73,5 +73,6 @@ Use Postman/Insomnia/Bruno or other testing applications
 
 ## Planned to add:
 
+- Add blocklist to database
 - Authorization
 - Frontend
