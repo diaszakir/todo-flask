@@ -1,5 +1,6 @@
 from db import db
 
+# Model for database
 class TaskModel(db.Model):
     __tablename__ = "tasks"
 

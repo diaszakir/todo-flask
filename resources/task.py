@@ -47,10 +47,10 @@ class TaskManagement(MethodView):
 
     return task
 
-  @jwt_required(fresh=True)
+  @jwt_required(fresh=True) # Must be fresh token, refresh not accepted
   def delete(self, task_id):
     jwt = get_jwt()
-    if not jwt.get('is_admin'):
+    if not jwt.get('is_admin'): # checking for admin
         abort(401, message="Admin privilege required.")
     task = TaskModel.query.get_or_404(task_id)
 

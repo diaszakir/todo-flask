@@ -16,7 +16,7 @@ class UserRegister(MethodView):
         if UserModel.query.filter(UserModel.username == user_data["username"]).first():
             abort(409, message="User with that username already exists.")
 
-        user = UserModel(username=user_data["username"], password=pbkdf2_sha256.hash(user_data["password"]))
+        user = UserModel(username=user_data["username"], password=pbkdf2_sha256.hash(user_data["password"])) # hashing password
 
         db.session.add(user)
         db.session.commit()
@@ -30,19 +30,19 @@ class UserLogin(MethodView):
     def post(self, user_data):
         user = UserModel.query.filter(UserModel.username == user_data["username"]).first()
 
-        if user and pbkdf2_sha256.verify(user_data["password"], user.password):
+        if user and pbkdf2_sha256.verify(user_data["password"], user.password): # checking credentials
             access_token = create_access_token(identity=str(user.id), fresh=True) # creating jwt token
-            refresh_token = create_refresh_token(str(user.id))
+            refresh_token = create_refresh_token(str(user.id)) # create refresh token
             return {"access_token": access_token, "refresh_token": refresh_token}, 201
 
         abort(401, message="Invalid credentials")
 
 @blp.route("/refresh")
 class TokenRefresh(MethodView):
-    @jwt_required(refresh=True)
+    @jwt_required(refresh=True) # it must be refresh token
     def post(self):
         current_user = get_jwt_identity()
-        new_token = create_access_token(identity=current_user, fresh=False)
+        new_token = create_access_token(identity=current_user, fresh=False) # creating new access_token, but not fresh
 
         jti = get_jwt()["jti"]
         token = BlocklistModel(jti=jti)
@@ -56,8 +56,8 @@ class TokenRefresh(MethodView):
 class UserLogout(MethodView):
     @jwt_required()
     def post(self):
-        jti = get_jwt()["jti"]
-        token = BlocklistModel(jti=jti)
+        jti = get_jwt()["jti"] # getting jti from JWT
+        token = BlocklistModel(jti=jti) # adding jti to blocklist model to database
 
         db.session.add(token)
         db.session.commit()

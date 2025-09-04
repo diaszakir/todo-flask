@@ -12,8 +12,9 @@ from models import BlocklistModel
 
 
 def create_app(db_url=None):
-  app = Flask(__name__)
+  app = Flask(__name__) # Initialize flask application
 
+  # app configurations
   app.config["PROPAGATE_EXCEPTIONS"] = True
   app.config["API_TITLE"] = "Todo REST API"
   app.config["API_VERSION"] = "v1"
@@ -30,6 +31,7 @@ def create_app(db_url=None):
   migrate = Migrate(app, db)
   api = Api(app)
 
+  # JWT loaders
   @jwt.token_in_blocklist_loader
   def check_if_token_in_blocklist(jwt_header, jwt_payload):
       jti = jwt_payload["jti"]
@@ -86,6 +88,7 @@ def create_app(db_url=None):
   # with app.app_context():
   #     db.create_all()
 
+  # Adding to blueprint
   api.register_blueprint(TaskBlueprint)
   api.register_blueprint(UserBlueprint)
 
